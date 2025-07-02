@@ -22,11 +22,14 @@ public class ServicoRequest {
     @NotNull(message = "O preço é obrigatório") 
     private Double preco;
 
+    private Integer duracaoPadrao;
+
     public Servico build() {
         return Servico.builder()
             .titulo(titulo)
             .descricao(descricao)
             .preco(preco)
+            .duracaoPadrao(duracaoPadrao)
             .build();
     }
 }

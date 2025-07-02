@@ -1,12 +1,19 @@
 package br.com.ifpe.barbearia_api.modelo.agendamento;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.hibernate.annotations.SQLRestriction;
+
+import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
+import br.com.ifpe.barbearia_api.modelo.cliente.Cliente;
+import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,19 +29,26 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Agendamento extends EntidadeAuditavel  {
 
-    @Column //A tabela que vai criar "Agenda" vai criar uma coluna após criar um atributo e adicionar na respectiva coluna
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
     @Column
     private LocalDate dataAtendimento;
-    @Column
-    private String servico;
+    @ManyToOne
+    @JoinColumn(name = "servico_id") // <-- Adicionar/Verificar este
+    private Servico servico;
     @Column
     private LocalTime horario;
-    @Column
-    private String barbeiro;
+    @ManyToOne
+    @JoinColumn(name = "barbeiro_id")
+    private Barbeiro barbeiro;
     @Column
     private String observacoes;
-
+    private LocalDateTime dataHoraInicio;
+    private LocalDateTime dataHoraFim;
+    private String status;
 }
+

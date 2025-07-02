@@ -2,11 +2,20 @@ package br.com.ifpe.barbearia_api.modelo.barbeiro;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 import org.hibernate.annotations.SQLRestriction;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,8 +49,14 @@ public class Barbeiro extends EntidadeAuditavel  {
     private LocalTime atendimentoInicio;
     @Column
     private LocalTime atendimentoFim;
-    @Column
-    private String skills;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "barbeiro_servicos",
+        joinColumns = @JoinColumn(name = "barbeiro_id"),
+        inverseJoinColumns = @JoinColumn(name = "servico_id")
+    )
+    @JsonManagedReference // <-- RESOLVE O LOOP (Lado "normal" da relação)
+    private Set<Servico> servicos;
     @Column
     private String senha;
 

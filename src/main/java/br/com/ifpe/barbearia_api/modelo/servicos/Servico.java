@@ -30,5 +30,8 @@ public class Servico extends EntidadeAuditavel  {
     private String descricao;
     @Column
     private double preco;
+    @Column
+    private Integer duracaoPadrao;
+    
 
 }

@@ -1,29 +1,44 @@
 package br.com.ifpe.barbearia_api.api.barbeiro;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/api/barbeiro")
+@RequestMapping("/api/barbeiros")
+@RequiredArgsConstructor
 @CrossOrigin
 public class BarbeiroController {
 
-   @Autowired
-   private BarbeiroService BarbeiroService;
+    private final BarbeiroService barbeiroService;
 
-   @PostMapping
-   public ResponseEntity<Barbeiro> save(@RequestBody BarbeiroRequest request) {
+    // Endpoint para criar o barbeiro com dados simples
+    @PostMapping
+    public ResponseEntity<Barbeiro> criarBarbeiro(@RequestBody Barbeiro barbeiro) {
+        Barbeiro barbeiroSalvo = barbeiroService.salvar(barbeiro);
+        return new ResponseEntity<>(barbeiroSalvo, HttpStatus.CREATED);
+    }
+    
+    // Endpoint para ASSOCIAR serviços a um barbeiro já existente
+    @PostMapping("/{barbeiroId}/servicos")
+    public ResponseEntity<Barbeiro> associarServicos(
+            @PathVariable Long barbeiroId, 
+            @RequestBody Map<String, Set<Long>> requestBody) {
+        
+        Set<Long> servicoIds = requestBody.get("servicoIds");
+        Barbeiro barbeiroAtualizado = barbeiroService.associarServicos(barbeiroId, servicoIds);
+        return ResponseEntity.ok(barbeiroAtualizado);
+    }
 
-      Barbeiro barbeiro = BarbeiroService.save(request.build());
-       return new ResponseEntity<Barbeiro>(barbeiro, HttpStatus.CREATED);
-   }
+    // Endpoint para listar todos (agora retorna a entidade diretamente)
+    @GetMapping
+    public List<Barbeiro> listarTodos() {
+        return barbeiroService.listarTodos();
+    }
 }
