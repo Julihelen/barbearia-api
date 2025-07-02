@@ -2,10 +2,16 @@ package br.com.ifpe.barbearia_api.api.barbeiro;
 
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroService;
+import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,4 +47,10 @@ public class BarbeiroController {
     public List<Barbeiro> listarTodos() {
         return barbeiroService.listarTodos();
     }
+
+
+
+
+    
+
 }

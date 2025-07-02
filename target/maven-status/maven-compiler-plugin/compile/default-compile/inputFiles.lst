@@ -2,8 +2,10 @@ C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\c
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\agendamento\AgendamentoRequest.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\barbeiro\BarbeiroController.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\barbeiro\BarbeiroRequest.java
+C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\barbeiro\DisponivelController.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\cliente\ClienteController.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\cliente\ClienteRequest.java
+C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\config\DataLoader.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\servicos\ServicoController.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\api\servicos\ServicoRequest.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\BarbeariaApiApplication.java
@@ -13,6 +15,8 @@ C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\c
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\barbeiro\Barbeiro.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\barbeiro\BarbeiroRepository.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\barbeiro\BarbeiroService.java
+C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\barbeiro\Disponibilidade.java
+C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\barbeiro\DisponibilidadeRepository.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\cliente\Cliente.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\cliente\ClienteRepository.java
 C:\Users\Julia\Documents\Projetos 2\PP2 - julia\barbearia-api\src\main\java\br\com\ifpe\barbearia_api\modelo\cliente\ClienteService.java

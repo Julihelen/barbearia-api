@@ -1,5 +1,6 @@
 package br.com.ifpe.barbearia_api.api.agendamento;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -35,7 +36,8 @@ public class AgendamentoController {
        return new ResponseEntity<Agendamento>(agendamento, HttpStatus.CREATED);
    }
 
-   @GetMapping("api/disponibilidade/{Id}")
+   
+    @GetMapping("/disponibilidade/{barbeiroId}")
     public List<LocalTime> getHorarios(
             @PathVariable Long barbeiroId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
