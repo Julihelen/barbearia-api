@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
 
+
+// SCRIPT PARA POPULAR BANCO
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {

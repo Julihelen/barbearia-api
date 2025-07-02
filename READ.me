@@ -1,0 +1,32 @@
+Este projeto é um aplicativo Spring Boot que pode ser executado usando Docker ou diretamente via Maven. Ele forneceuma API RESTful para gerenciamento de um sistema de barbearia.
+Pré-requisitos
+
+Ferramentas:
+
+    Java Development Kit (JDK) 17 ou superior:
+
+        Você pode baixar o JDK em https://www.oracle.com/java/technologies/downloads/ ou usar um gerenciador de pacotes como sdkman ou brew.
+
+    Maven 3.6.0 ou superior:
+
+        Verifique a instalação com mvn -v. Se não estiver instalado, siga as instruções em https://maven.apache.org/install.html.
+
+    Docker Desktop (inclui Docker Engine e Docker Compose):
+
+        Baixe e instale o Docker Desktop em https://www.docker.com/products/docker-desktop.
+
+        Verifique a instalação com docker --version e docker-compose --version.
+
+Existem duas maneiras principais de iniciar este projeto: usando Docker Compose (recomendado para ambiente de desenvolvimento) ou executando diretamente com Maven.
+Opção 1: Usando Docker Compose (Recomendado)
+
+    Construa e inicie os contêineres:
+    Este comando construirá as imagens Docker (se necessário) e iniciará todos os serviços definidos no seu docker-compose.yml.
+
+    # docker-compose up --build
+
+Opção 2: Executando Diretamente com Maven
+
+    # ./mvnw clean install
+
+    # ./mvnw spring-boot:run
