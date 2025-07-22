@@ -1,0 +1,39 @@
+
+INSERT INTO disponibilidade (
+    id, dia_semana, barbeiro_id, hora_inicio, hora_fim, ativo, data_excecao
+) VALUES
+(9, 0, 2, '10:00:00', '18:00:00',true, NULL),  -- Segunda
+(10, 1,2,  '10:00:00', '18:00:00', true, NULL),  -- Terça
+(11, 2, 2, '10:00:00', '18:00:00', true, NULL),  -- Quarta
+(12, 3,2,  '10:00:00', '18:00:00', true, NULL),  -- Quinta
+(13, 4,2,  '10:00:00', '18:00:00', true, NULL),  -- Sexta
+(14, 5, 2, '10:00:00', '18:00:00',  true, NULL),  -- Sábado
+(15,6, 2, '10:00:00', '18:00:00',  false, NULL); -- Domingo (folga)
+
+
+INSERT INTO disponibilidade (
+    id, dia_semana, barbeiro_id, hora_inicio, hora_fim, ativo, data_excecao
+) VALUES
+(2, 0, 1, '10:00:00', '18:00:00', true, NULL),  -- Segunda
+(3, 1, 1, '10:00:00', '18:00:00', true, NULL),  -- Terça
+(4, 2, 1, '10:00:00', '18:00:00', true, NULL),  -- Quarta
+(5, 3, 1, '10:00:00', '18:00:00', true, NULL),  -- Quinta
+(6, 4, 1, '10:00:00', '18:00:00', true, NULL),  -- Sexta
+(7, 5, 1, '10:00:00', '18:00:00',  true, NULL),  -- Sábado
+(8,6, 1, '10:00:00', '18:00:00', false, NULL); -- Domingo (folga)
+
+
+INSERT INTO barbeiro (
+    id,
+    nome,
+    fone_celular,
+    email,
+    data_nascimento,
+    cpf,
+    endereco,
+    atendimento_inicio,
+    atendimento_fim,
+    senha
+) VALUES
+(1, 'João da Silva', '81999990001', 'joao.silva@email.com', '1985-04-10', '12345678900', 'Rua das Flores, 123', '10:00:00', '18:00:00', 'senha123'),
+(2, 'Carlos Pereira', '81999990002', 'carlos.pereira@email.com', '1990-08-20', '98765432100', 'Av. Central, 456', '10:00:00', '18:00:00', 'senha456');
