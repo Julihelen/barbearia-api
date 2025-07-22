@@ -16,7 +16,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Servico")
-@SQLRestriction("habilitado = true") // acrescenta where em todas as consultas
+// @SQLRestriction("habilitado = true") // acrescenta where em todas as consultas
 
 @Getter
 @Setter

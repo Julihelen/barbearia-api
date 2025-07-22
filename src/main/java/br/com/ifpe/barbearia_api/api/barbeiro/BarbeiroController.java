@@ -47,6 +47,18 @@ public class BarbeiroController {
     public List<Barbeiro> listarTodos() {
         return barbeiroService.listarTodos();
     }
+    //lista por serviço disponivel do barbeiro
+    @GetMapping("/por-servico/{idServico}")
+    public ResponseEntity<List<Barbeiro>> buscarPorServico(@PathVariable Long idServico) {
+        List<Barbeiro> barbeiros = barbeiroService.buscarPorIdServico(idServico);
+        return ResponseEntity.ok(barbeiros);
+    }
+
+    // @GetMapping("/filtro-por-servico-com-disponibilidade")
+    // public List<BarbeiroComDisponibilidadeDTO> listarPorServicoComDisponibilidade(@RequestParam String servico) {
+    //     return barbeiroService.buscarPorServicoComDisponibilidade(servico);
+    // }
+
 
 
 

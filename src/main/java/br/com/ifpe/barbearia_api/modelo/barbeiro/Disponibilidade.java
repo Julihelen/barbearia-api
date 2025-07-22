@@ -1,11 +1,12 @@
 package br.com.ifpe.barbearia_api.modelo.barbeiro;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
@@ -15,7 +16,7 @@ import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Disponibilidade extends EntidadeAuditavel{
+public class Disponibilidade extends EntidadeAuditavel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barbeiro_id", nullable = false)
@@ -26,4 +27,8 @@ public class Disponibilidade extends EntidadeAuditavel{
 
     private LocalTime horaInicio;
     private LocalTime horaFim;
-} 
+
+    private boolean ativo = true;  // Indica se está disponível nesse dia da semana (true por padrão)
+
+    private LocalDate dataExcecao; // Se preenchido, esta disponibilidade vale só para essa data (folga ou dia especial)
+}

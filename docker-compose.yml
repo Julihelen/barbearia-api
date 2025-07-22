@@ -9,22 +9,24 @@ services:
       POSTGRES_DB: barbearia
     ports:
       - "5435:5432"
-    volumes:
+    volumes: # <--- A SEÇÃO DE VOLUMES JÁ ESTÁ AQUI, O QUE É ÓTIMO!
       - postgres_data:/var/lib/postgresql/data
 
-  app:
-    build: .
-    container_name: barbearia-app
-    restart: always
-    depends_on:
-      - db
-    ports:
-      - "8080:8080" # Porta padrão do Spring Boot
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/barbearia
-      SPRING_DATASOURCE_USERNAME: barbearia
-      SPRING_DATASOURCE_PASSWORD: barbearia
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  # O serviço 'app' foi comentado para não iniciar junto com o Docker
+  # app:
+  #   build: .
+  #   container_name: barbearia-app
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://db:5435/barbearia
+  #     SPRING_DATASOURCE_USERNAME: barbearia
+  #     SPRING_DATASOURCE_PASSWORD: barbearia
+  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
+# ESTA SEÇÃO NO FINAL É CRUCIAL. GARANTA QUE ELA EXISTA.
 volumes:
   postgres_data:

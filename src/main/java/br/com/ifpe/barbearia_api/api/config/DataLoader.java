@@ -1,95 +1,112 @@
-package br.com.ifpe.barbearia_api.api.config;
+// package br.com.ifpe.barbearia_api.api.config;
 
-import br.com.ifpe.barbearia_api.modelo.agendamento.Agendamento;
-import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
-import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
-import br.com.ifpe.barbearia_api.modelo.cliente.Cliente;
-import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
-import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoRepository;
-import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroRepository;
-import br.com.ifpe.barbearia_api.modelo.barbeiro.DisponibilidadeRepository;
-import br.com.ifpe.barbearia_api.modelo.cliente.ClienteRepository;
-import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+// import br.com.ifpe.barbearia_api.modelo.agendamento.Agendamento;
+// import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
+// import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
+// import br.com.ifpe.barbearia_api.modelo.cliente.Cliente;
+// import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
+// import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoRepository;
+// import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroRepository;
+// import br.com.ifpe.barbearia_api.modelo.barbeiro.DisponibilidadeRepository;
+// import br.com.ifpe.barbearia_api.modelo.cliente.ClienteRepository;
+// import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
+// import lombok.RequiredArgsConstructor;
+// import org.springframework.boot.CommandLineRunner;
+// import org.springframework.stereotype.Component;
+// import org.springframework.core.env.Environment; // <-- Adicione este import
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Set;
+// import java.time.DayOfWeek;
+// import java.time.LocalDate;
+// import java.time.LocalTime;
+// import java.util.Set;
 
 
-// SCRIPT PARA POPULAR BANCO
-@Component
-@RequiredArgsConstructor
-public class DataLoader implements CommandLineRunner {
+// // SCRIPT PARA POPULAR BANCO
+// @Component
+// @RequiredArgsConstructor
+// public class DataLoader implements CommandLineRunner {
 
-    private final BarbeiroRepository barbeiroRepository;
-    private final ServicoRepository servicoRepository;
-    private final DisponibilidadeRepository disponibilidadeRepository;
-    private final ClienteRepository clienteRepository;
-    private final AgendamentoRepository agendamentoRepository;
+//     private final BarbeiroRepository barbeiroRepository;
+//     private final ServicoRepository servicoRepository;
+//     private final DisponibilidadeRepository disponibilidadeRepository;
+//     private final ClienteRepository clienteRepository;
+//     private final AgendamentoRepository agendamentoRepository;
+//     private final Environment env;
+  
 
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("--- Carregando dados iniciais para teste... ---");
+//     @Override
+//     public void run(String... args) throws Exception {
+//         System.out.println("--- Verificando se o banco precisa ser populado... ---");
 
-        // 1. Criar Serviços
-        Servico servicoCorte = new Servico();
-        servicoCorte.setTitulo("Corte de Cabelo");
-        servicoRepository.save(servicoCorte);
+//         String ddlAutoValue = env.getProperty("spring.jpa.hibernate.ddl-auto");
+//         System.out.println("===============================================================");
+//         System.out.println("VALOR REAL DE 'ddl-auto' QUE O SPRING ESTÁ USANDO: " + ddlAutoValue);
+//         System.out.println("===============================================================");
 
-        Servico servicoBarba = new Servico();
-        servicoBarba.setTitulo("Barba Terapia");
-        servicoRepository.save(servicoBarba);
+//         boolean dadosJaExistem =
+//             servicoRepository.existsByTitulo("Corte de Cabelo") &&
+//             servicoRepository.existsByTitulo("Barba Terapia") &&
+//             barbeiroRepository.existsByNome("João da Silva") &&
+//             barbeiroRepository.existsByNome("Pedro Souza") &&
+//             clienteRepository.existsByNome("Ana Lúcia");
 
-        // 2. Criar Barbeiros e associar serviços
-        Barbeiro barbeiroJoao = new Barbeiro();
-        barbeiroJoao.setNome("João da Silva");
-        barbeiroJoao.setServicos(Set.of(servicoCorte, servicoBarba)); // João faz tudo
-        barbeiroRepository.save(barbeiroJoao);
+//         if (dadosJaExistem) {
+//             System.out.println("--- Dados já existentes. Nenhuma inserção realizada. ---");
+//             return;
+//         }
 
-        Barbeiro barbeiroPedro = new Barbeiro();
-        barbeiroPedro.setNome("Pedro Souza");
-        barbeiroPedro.setServicos(Set.of(servicoCorte)); // Pedro só corta cabelo
-        barbeiroRepository.save(barbeiroPedro);
+//         // 1. Criar Serviços
+//         Servico servicoCorte = new Servico();
+//         servicoCorte.setTitulo("Corte de Cabelo");
+//         servicoRepository.save(servicoCorte);
 
-        // 3. Criar Disponibilidade para os Barbeiros
-        // João trabalha na Segunda de manhã (hoje é Segunda, 30/06/2025)
-        Disponibilidade dispJoao = new Disponibilidade();
-        dispJoao.setBarbeiro(barbeiroJoao);
-        dispJoao.setDiaSemana(DayOfWeek.MONDAY);
-        dispJoao.setHoraInicio(LocalTime.of(9, 0));
-        dispJoao.setHoraFim(LocalTime.of(12, 0));
-        disponibilidadeRepository.save(dispJoao);
+//         Servico servicoBarba = new Servico();
+//         servicoBarba.setTitulo("Barba Terapia");
+//         servicoRepository.save(servicoBarba);
 
-        // Pedro trabalha na Segunda o dia todo
-        Disponibilidade dispPedro = new Disponibilidade();
-        dispPedro.setBarbeiro(barbeiroPedro);
-        dispPedro.setDiaSemana(DayOfWeek.MONDAY);
-        dispPedro.setHoraInicio(LocalTime.of(10, 0));
-        dispPedro.setHoraFim(LocalTime.of(17, 0));
-        disponibilidadeRepository.save(dispPedro);
+//         // 2. Criar Barbeiros e associar serviços
+//         Barbeiro barbeiroJoao = new Barbeiro();
+//         barbeiroJoao.setNome("João da Silva");
+//         barbeiroJoao.setServicos(Set.of(servicoCorte, servicoBarba));
+//         barbeiroRepository.save(barbeiroJoao);
 
-        // 4. Criar um Cliente
-        Cliente clienteAna = new Cliente();
-        clienteAna.setNome("Ana Lúcia");
-        clienteRepository.save(clienteAna);
+//         Barbeiro barbeiroPedro = new Barbeiro();
+//         barbeiroPedro.setNome("Pedro Souza");
+//         barbeiroPedro.setServicos(Set.of(servicoCorte));
+//         barbeiroRepository.save(barbeiroPedro);
 
-        // 5. Criar um AGENDAMENTO JÁ EXISTENTE para testar o filtro
-        // Vamos marcar um horário com o João para vermos o horário sumir da lista
-        LocalDate hoje = LocalDate.of(2025, 6, 30);
-        Agendamento agendamentoExistente = Agendamento.builder()
-                .barbeiro(barbeiroJoao)
-                .cliente(clienteAna)
-                .servico(servicoCorte)
-                .dataHoraInicio(hoje.atTime(10, 20)) // Marcando às 10:20
-                .dataHoraFim(hoje.atTime(11, 0)) // 40 min depois
-                .status("Confirmado")
-                .build();
-        agendamentoRepository.save(agendamentoExistente);
+//         // 3. Criar Disponibilidade
+//         Disponibilidade dispJoao = new Disponibilidade();
+//         dispJoao.setBarbeiro(barbeiroJoao);
+//         dispJoao.setDiaSemana(DayOfWeek.MONDAY);
+//         dispJoao.setHoraInicio(LocalTime.of(9, 0));
+//         dispJoao.setHoraFim(LocalTime.of(12, 0));
+//         disponibilidadeRepository.save(dispJoao);
 
-        System.out.println("--- Dados carregados com sucesso! ---");
-    }
-}
+//         Disponibilidade dispPedro = new Disponibilidade();
+//         dispPedro.setBarbeiro(barbeiroPedro);
+//         dispPedro.setDiaSemana(DayOfWeek.MONDAY);
+//         dispPedro.setHoraInicio(LocalTime.of(10, 0));
+//         dispPedro.setHoraFim(LocalTime.of(17, 0));
+//         disponibilidadeRepository.save(dispPedro);
+
+//         // 4. Criar Cliente
+//         Cliente clienteAna = new Cliente();
+//         clienteAna.setNome("Ana Lúcia");
+//         clienteRepository.save(clienteAna);
+
+//         // 5. Criar Agendamento
+//         LocalDate hoje = LocalDate.of(2025, 6, 30);
+//         Agendamento agendamentoExistente = Agendamento.builder()
+//                 .barbeiro(barbeiroJoao)
+//                 .cliente(clienteAna)
+//                 .servico(servicoCorte)
+//                 .dataHoraInicio(hoje.atTime(10, 20))
+//                 .dataHoraFim(hoje.atTime(11, 0))
+//                 .status("Confirmado")
+//                 .build();
+//         agendamentoRepository.save(agendamentoExistente);
+
+//         System.out.println("--- Dados carregados com sucesso! ---");
+//     }
+// }

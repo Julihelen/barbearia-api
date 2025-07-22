@@ -11,5 +11,6 @@ public interface DisponibilidadeRepository extends JpaRepository<Disponibilidade
      * Busca as regras de disponibilidade de um barbeiro para um dia específico da semana.
      * O Spring Data JPA cria a query automaticamente pelo nome do método.
      */
+    List<Disponibilidade> findByBarbeiroId(Long barbeiroId);
     List<Disponibilidade> findByBarbeiroIdAndDiaSemana(Long barbeiroId, DayOfWeek diaSemana);
 }
