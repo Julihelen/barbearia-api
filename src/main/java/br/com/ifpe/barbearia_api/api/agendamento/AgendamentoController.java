@@ -1,6 +1,5 @@
 package br.com.ifpe.barbearia_api.api.agendamento;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifpe.barbearia_api.modelo.agendamento.Agendamento;
 import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoService;
+import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
+import br.com.ifpe.barbearia_api.modelo.cliente.Cliente;
+import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 
 @RestController
 @RequestMapping("/api/agendamento")
@@ -27,20 +29,41 @@ import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoService;
 public class AgendamentoController {
 
    @Autowired
-   private AgendamentoService AgendamentoService;
+   private AgendamentoService agendamentoService;
+//    @Autowired
+//    private Object clienteService;
+//    @Autowired
+//    private Object servicoService;
+//    @Autowired
+//    private Object barbeiroService;
 
-   @PostMapping
-   public ResponseEntity<Agendamento> save(@RequestBody AgendamentoRequest request) {
 
-    Agendamento agendamento = AgendamentoService.save(request.build());
-       return new ResponseEntity<Agendamento>(agendamento, HttpStatus.CREATED);
+    @GetMapping
+    public List<Agendamento> listarTodos() {
+        return agendamentoService.listarTodos();
+    }
+
+   @GetMapping("/disponibilidade/{barbeiroId}")
+   public ResponseEntity<List<LocalTime>> getHorarios(
+           @PathVariable Long barbeiroId,
+           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+       List<LocalTime> horarios = agendamentoService.getHorariosDisponiveis(barbeiroId, data);
+       return ResponseEntity.ok(horarios);
    }
 
-   
-    @GetMapping("/disponibilidade/{barbeiroId}")
-    public List<LocalTime> getHorarios(
-            @PathVariable Long barbeiroId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
-        return AgendamentoService.getHorariosDisponiveis(barbeiroId, data);
-    }
+   // Para o POST de agendamento, pode comentar o cliente e focar só no básico
+   @PostMapping
+   public ResponseEntity<?> save(@RequestBody AgendamentoRequest request) {
+    //    List<Cliente> cliente = clienteService.obterPorID(request.getClienteId()); // comentado por enquanto
+       
+
+       // aqui, só use barbeiro e servico se quiser testar mesmo
+    //    List<Barbeiro> barbeiro = barbeiroService.obterPorID(request.getBarbeiroId());
+    //    List<Servico> servico = servicoService.obterPorID(request.getServicoId());
+
+    //    Agendamento agendamento = agendamentoService.save(request.build(cliente, servico, barbeiro));
+    //    return new ResponseEntity<>(agendamento, HttpStatus.CREATED);
+
+       return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Aguarde, implementação do agendamento comentada por enquanto.");
+   }
 }

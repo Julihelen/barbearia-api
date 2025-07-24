@@ -3,10 +3,16 @@ package br.com.ifpe.barbearia_api.modelo.barbeiro;
 import br.com.ifpe.barbearia_api.api.barbeiro.BarbeiroComDisponibilidadeDTO;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
+import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoService;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.DisponibilidadeRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,25 +24,23 @@ public class BarbeiroService {
 
     private final BarbeiroRepository barbeiroRepository;
     private final ServicoRepository servicoRepository;
-    private DisponibilidadeRepository disponibilidadeRepository;
+    private final DisponibilidadeRepository disponibilidadeRepository;
+    private final AgendamentoService agendamentoService;
 
+    public Barbeiro obterPorID(Long id) {
+        return barbeiroRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Barbeiro não encontrado com ID: " + id));
+    }
 
     @Transactional
     public Barbeiro salvar(Barbeiro barbeiro) {
-        // Apenas salva a entidade com os dados básicos
         return barbeiroRepository.save(barbeiro);
     }
     
     @Transactional
     public Barbeiro associarServicos(Long barbeiroId, Set<Long> servicoIds) {
-        // Busca o barbeiro no banco
-        Barbeiro barbeiro = barbeiroRepository.findById(barbeiroId)
-                .orElseThrow(() -> new RuntimeException("Barbeiro não encontrado!"));
-        
-        // Busca os serviços a serem associados
+        Barbeiro barbeiro = obterPorID(barbeiroId);
         Set<Servico> servicosParaAssociar = new HashSet<>(servicoRepository.findAllById(servicoIds));
-
-        // Associa os serviços e salva
         barbeiro.setServicos(servicosParaAssociar);
         return barbeiroRepository.save(barbeiro);
     }
@@ -45,21 +49,11 @@ public class BarbeiroService {
         return barbeiroRepository.findAll();
     }
 
-    //listar serviços por barbeiro
     public List<Barbeiro> buscarPorIdServico(Long idServico) {
         return barbeiroRepository.buscarPorIdServico(idServico);
     }
 
-
-    // public List<BarbeiroComDisponibilidadeDTO> buscarPorServicoComDisponibilidade(String nomeServico) {
-    // List<Barbeiro> barbeiros = barbeiroRepository.buscarPorServico(nomeServico);
-
-    // return barbeiros.stream()
-    //     .map(barbeiro -> {
-    //         List<Disponibilidade> disponibilidade = disponibilidadeRepository.findByBarbeiroId(barbeiro.getId());
-    //         return new BarbeiroComDisponibilidadeDTO(barbeiro.getId(), barbeiro.getNome(), disponibilidade);
-    //     })
-    //     .collect(Collectors.toList());
-    // }
-
+    public List<LocalTime> obterHorariosDisponiveis(Long barbeiroId, LocalDate data) {
+        return agendamentoService.getHorariosDisponiveis(barbeiroId, data);
+    }
 }

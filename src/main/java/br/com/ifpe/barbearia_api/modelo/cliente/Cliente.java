@@ -1,10 +1,15 @@
 package br.com.ifpe.barbearia_api.modelo.cliente;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import org.hibernate.annotations.SQLRestriction;
+
+import br.com.ifpe.barbearia_api.modelo.agendamento.Agendamento;
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,5 +41,8 @@ public class Cliente extends EntidadeAuditavel  {
     private String email;
     @Column
     private String senha;
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Agendamento> agendamentos;
 
 }

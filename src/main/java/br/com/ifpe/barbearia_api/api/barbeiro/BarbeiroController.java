@@ -4,12 +4,15 @@ import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroService;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,15 @@ public class BarbeiroController {
     // public List<BarbeiroComDisponibilidadeDTO> listarPorServicoComDisponibilidade(@RequestParam String servico) {
     //     return barbeiroService.buscarPorServicoComDisponibilidade(servico);
     // }
+
+    @GetMapping("/{barbeiroId}/horarios-disponiveis")
+    public ResponseEntity<List<LocalTime>> listarHorariosDisponiveis(
+        @PathVariable Long barbeiroId,
+        @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+
+        List<LocalTime> horarios = barbeiroService.obterHorariosDisponiveis(barbeiroId, data);
+        return ResponseEntity.ok(horarios);
+    }
 
 
 

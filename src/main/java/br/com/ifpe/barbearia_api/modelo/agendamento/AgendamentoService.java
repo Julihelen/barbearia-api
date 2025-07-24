@@ -35,6 +35,12 @@ public class AgendamentoService {
 
        
    }
+   @Autowired
+    private AgendamentoRepository agendamentoRepository;
+
+    public List<Agendamento> listarTodos() {
+        return agendamentoRepository.findAll();
+    }
   
     public List<LocalTime> getHorariosDisponiveis(Long barbeiroId, LocalDate data) {
     DayOfWeek diaSemana = data.getDayOfWeek();

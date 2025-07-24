@@ -11,35 +11,29 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AgendamentoRequest {
 
-    private Cliente cliente;
-    
+    private Long clienteId;
     private LocalDate dataAtendimento;
-    
-    private Servico servico;
-    
+    private Long servicoId;
     private LocalTime horario;
-   
-    private Barbeiro barbeiro;
-    
+    private Long barbeiroId;
     private String observacoes;
-   
 
-   public Agendamento build() {
+    public Agendamento build(Cliente cliente, Servico servico, Barbeiro barbeiro) {
 
-       return Agendamento.builder()
-           .cliente(cliente)
-           .dataAtendimento(dataAtendimento)
-           .servico(servico)
-           .horario(horario)
-           .barbeiro(barbeiro)
-           .observacoes(observacoes)
-           .build();
-   }
-
+        return Agendamento.builder()
+            .cliente(cliente)
+            .dataAtendimento(dataAtendimento)
+            .servico(servico)
+            .horario(horario)
+            .barbeiro(barbeiro)
+            .observacoes(observacoes)
+            .build();
+    }
 }
