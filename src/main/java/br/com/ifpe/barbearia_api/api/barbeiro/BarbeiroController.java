@@ -1,10 +1,18 @@
 package br.com.ifpe.barbearia_api.api.barbeiro;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
+import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroRepository;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroService;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
+import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
+import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +26,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/barbeiros")
-@RequiredArgsConstructor
 @CrossOrigin
+@Tag(
+    name = "API Barbeiro",
+    description = "API responsável pelo cadastro de barbeiro no sistema"
+)
 public class BarbeiroController {
-
-    private final BarbeiroService barbeiroService;
+    @Autowired
+    private BarbeiroService barbeiroService;
+    @Autowired
+    private ServicoRepository servicoRepository;
+   
+    @Operation(
+       summary = "Serviço responsável por salvar um cliente no sistema.",
+       description = "Exemplo de descrição de um endpoint responsável por inserir um cliente no sistema."
+    )
 
     // Endpoint para criar o barbeiro com dados simples
     @PostMapping
@@ -37,13 +56,14 @@ public class BarbeiroController {
     // Endpoint para ASSOCIAR serviços a um barbeiro já existente
     @PostMapping("/{barbeiroId}/servicos")
     public ResponseEntity<Barbeiro> associarServicos(
-            @PathVariable Long barbeiroId, 
+            @PathVariable Long barbeiroId,
             @RequestBody Map<String, Set<Long>> requestBody) {
-        
+
         Set<Long> servicoIds = requestBody.get("servicoIds");
         Barbeiro barbeiroAtualizado = barbeiroService.associarServicos(barbeiroId, servicoIds);
         return ResponseEntity.ok(barbeiroAtualizado);
     }
+
 
     // Endpoint para listar todos (agora retorna a entidade diretamente)
     @GetMapping
@@ -72,6 +92,25 @@ public class BarbeiroController {
     }
 
 
+    // Endpoint para atualizar barbeiro por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Barbeiro> atualizarBarbeiro(@PathVariable Long id, @RequestBody Barbeiro barbeiroAtualizado) {
+        try {
+            Barbeiro barbeiroSalvo = barbeiroService.atualizar(id, barbeiroAtualizado);
+            return ResponseEntity.ok(barbeiroSalvo);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Barbeiro não encontrado", e);
+        }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        barbeiroService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+   
+    
 
 
 

@@ -2,11 +2,12 @@ package br.com.ifpe.barbearia_api.modelo.barbeiro;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import org.hibernate.annotations.SQLRestriction;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.stream.Collectors;
 
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
@@ -25,15 +26,14 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "barbeiro")
-// @SQLRestriction("habilitado = true") // acrescenta where em todas as consultas
-@Builder
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Barbeiro extends EntidadeAuditavel  {
+public class Barbeiro extends EntidadeAuditavel {
 
-    @Column //A tabela que vai criar "Barbeiro" vai criar uma coluna após criar um atributo e adicionar na respectiva coluna
+    @Column
     private String nome;
     @Column
     private String foneCelular;
@@ -49,16 +49,35 @@ public class Barbeiro extends EntidadeAuditavel  {
     private LocalTime atendimentoInicio;
     @Column
     private LocalTime atendimentoFim;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "barbeiro_servicos",
-        joinColumns = @JoinColumn(name = "barbeiro_id"),
-        inverseJoinColumns = @JoinColumn(name = "servico_id")
+    name = "barbeiro_servico",
+    joinColumns = @JoinColumn(name = "barbeiro_id"),
+    inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
-    @JsonManagedReference // <-- RESOLVE O LOOP (Lado "normal" da relação)
-    private Set<Servico> servicos;
+    private Set<Servico> servicos = new HashSet<>();
+
     @Column
     private String senha;
 
+    // public List<Long> getServicoIdsList() {
+    //     if (servicoIds == null || servicoIds.trim().isEmpty()) {
+    //         return new ArrayList<>();
+    //     }
+    //     return Arrays.stream(servicoIds.split(","))
+    //             .map(String::trim)
+    //             .map(Long::parseLong)
+    //             .collect(Collectors.toList());
+    // }
 
+    // public void setServicoIdsList(List<Long> ids) {
+    //     if (ids == null || ids.isEmpty()) {
+    //         this.servicoIds = null;
+    //     } else {
+    //         this.servicoIds = ids.stream()
+    //                 .map(String::valueOf)
+    //                 .collect(Collectors.joining(","));
+    //     }
+    // }
 }

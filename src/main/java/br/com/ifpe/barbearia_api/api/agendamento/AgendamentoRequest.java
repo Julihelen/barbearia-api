@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 public class AgendamentoRequest {
 
     private Long clienteId;
-    private LocalDate dataAtendimento;
     private Long servicoId;
-    private LocalTime horario;
     private Long barbeiroId;
+    private LocalDate dataAtendimento;
+    private LocalTime horario;
     private String observacoes;
 
     public Agendamento build(Cliente cliente, Servico servico, Barbeiro barbeiro) {

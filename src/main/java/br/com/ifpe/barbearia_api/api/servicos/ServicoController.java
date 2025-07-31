@@ -1,7 +1,11 @@
 package br.com.ifpe.barbearia_api.api.servicos;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +14,28 @@ import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.modelo.servicos.ServicoService;
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/api/servicos")
 @CrossOrigin
+@Tag(
+    name = "API Serviço",
+    description = "API responsável pelos servidos no sistema"
+)
 public class ServicoController {
+    
 
-    private final ServicoService servicoService;
-
-    // Injeção via construtor (boa prática)
+     private final ServicoService servicoService;
+        
+    @Autowired     
     public ServicoController(ServicoService servicoService) {
         this.servicoService = servicoService;
     }
 
+    @Operation(
+            summary = "Serviço responsável por salvar um cliente no sistema.",
+            description = "Exemplo de descrição de um endpoint responsável por inserir um cliente no sistema."
+    )
     // Criar novo serviço
     @PostMapping
     public ResponseEntity<Servico> save(@RequestBody @Valid ServicoRequest request) {

@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ServicoService {
-    
     @Autowired
     private ServicoRepository repository;
 
@@ -19,7 +20,7 @@ public class ServicoService {
         if (servico == null) {
             throw new IllegalArgumentException("O objeto Servico não pode ser nulo.");
         }
-        servico.setHabilitado(Boolean.TRUE);
+        // servico.setHabilitado(Boolean.TRUE);
         return repository.save(servico);
     }
 
@@ -30,7 +31,6 @@ public class ServicoService {
     }
 
     public Servico obterPorID(Long id) {
-
         return repository.findById(id).get(); //SELECT * FROM Servico WHERE id = ?
     }
 
@@ -50,7 +50,7 @@ public class ServicoService {
     public void delete(Long id) {
 
         Servico servico = repository.findById(id).get();
-        servico.setHabilitado(Boolean.FALSE);
+        // servico.setHabilitado(Boolean.FALSE);
 
         repository.save(servico);
     }

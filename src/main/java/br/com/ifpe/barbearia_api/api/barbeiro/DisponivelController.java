@@ -1,5 +1,6 @@
 package br.com.ifpe.barbearia_api.api.barbeiro;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.DisponibilidadeRepository;
 import jakarta.validation.constraints.NotNull;
@@ -15,9 +16,16 @@ import java.util.List;
 @RequestMapping("/api/disponibilidade")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class DisponivelController {
+@Tag(
+    name = "API Cliente",
+    description = "API responsável pelos servidos de cliente no sistema"
+)public class DisponivelController {
 
     private final DisponibilidadeRepository disponibilidadeRepository;
+    @Operation(
+       summary = "Serviço responsável por salvar um cliente no sistema.",
+       description = "Exemplo de descrição de um endpoint responsável por inserir um cliente no sistema."
+     )
 
     @GetMapping("/{barbeiroId}")
     public List<String> buscarHorariosDisponiveis(

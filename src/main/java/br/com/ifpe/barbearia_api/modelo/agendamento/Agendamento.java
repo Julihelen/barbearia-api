@@ -6,9 +6,12 @@ import java.time.LocalTime;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
 import br.com.ifpe.barbearia_api.modelo.cliente.Cliente;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import br.com.ifpe.barbearia_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,11 +38,14 @@ public class Agendamento extends EntidadeAuditavel  {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column
     private LocalDate dataAtendimento;
     @ManyToOne
     @JoinColumn(name = "servico_id") // <-- Adicionar/Verificar este
     private Servico servico;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     @Column
     private LocalTime horario;
     @ManyToOne
