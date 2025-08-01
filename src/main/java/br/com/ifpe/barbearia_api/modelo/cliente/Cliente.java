@@ -38,7 +38,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Cliente extends EntidadeAuditavel  {
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
 

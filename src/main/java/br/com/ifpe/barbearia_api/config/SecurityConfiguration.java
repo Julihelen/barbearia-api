@@ -44,8 +44,19 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/cliente").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/barbeiros").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/servicos").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/servicos").hasAnyAuthority(
+                    Perfil.ROLE_FUNCIONARIO_USER,
+                    Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+
+
+                .requestMatchers(HttpMethod.GET, "/api/servicos").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/cliente").hasAnyAuthority(
+                    Perfil.ROLE_FUNCIONARIO_USER,
+                    Perfil.ROLE_FUNCIONARIO_ADMIN)
+                .requestMatchers(HttpMethod.GET, "/api/barbeiros").hasAnyAuthority(
+                    Perfil.ROLE_FUNCIONARIO_USER,
+                    Perfil.ROLE_FUNCIONARIO_ADMIN)
                 // Swagger (documentação)
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
@@ -56,12 +67,16 @@ public class SecurityConfiguration {
                     Perfil.ROLE_FUNCIONARIO_ADMIN)
 
                 .requestMatchers("/api/barbeiro/**").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_FUNCIONARIO_USER)
+                    Perfil.ROLE_FUNCIONARIO_ADMIN, 
+                    Perfil.ROLE_FUNCIONARIO_USER)
 
                 .requestMatchers(HttpMethod.POST, "/api/servicos").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_USER, Perfil.ROLE_FUNCIONARIO_ADMIN)
+                    Perfil.ROLE_FUNCIONARIO_USER, 
+                    Perfil.ROLE_FUNCIONARIO_ADMIN)
                 .requestMatchers("/api/servicos/**").hasAnyAuthority(
-                    Perfil.ROLE_CLIENTE, Perfil.ROLE_FUNCIONARIO_USER, Perfil.ROLE_FUNCIONARIO_ADMIN)
+                    Perfil.ROLE_CLIENTE, 
+                    Perfil.ROLE_FUNCIONARIO_USER, 
+                    Perfil.ROLE_FUNCIONARIO_ADMIN)
 
                 // Qualquer outra rota exige autenticação
                 .anyRequest().authenticated()
