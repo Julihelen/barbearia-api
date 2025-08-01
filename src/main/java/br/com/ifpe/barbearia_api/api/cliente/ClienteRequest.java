@@ -53,8 +53,6 @@ public class ClienteRequest {
             .cpf(cpf)
             .endereco(endereco)
             .foneCelular(foneCelular)
-            .password(password)
-            .email(email)
             .build();
     }
 

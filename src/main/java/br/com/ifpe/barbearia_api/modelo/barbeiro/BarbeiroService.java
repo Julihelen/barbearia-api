@@ -1,6 +1,9 @@
 package br.com.ifpe.barbearia_api.modelo.barbeiro;
 
 import br.com.ifpe.barbearia_api.api.barbeiro.BarbeiroComDisponibilidadeDTO;
+import br.com.ifpe.barbearia_api.modelo.acesso.Perfil;
+import br.com.ifpe.barbearia_api.modelo.acesso.PerfilRepository;
+import br.com.ifpe.barbearia_api.modelo.acesso.UsuarioService;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
 import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoService;
@@ -26,6 +29,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BarbeiroService {
 
+    private final PerfilRepository perfilRepository;
+
+    private final UsuarioService usuarioService;
+
     private final BarbeiroRepository barbeiroRepository;
     private final ServicoRepository servicoRepository;
     private final DisponibilidadeRepository disponibilidadeRepository;
@@ -34,6 +41,12 @@ public class BarbeiroService {
 
     @Transactional
     public Barbeiro salvar(Barbeiro barbeiro) {
+        usuarioService.save(barbeiro.getUsuario());
+        for(Perfil perfil : barbeiro.getUsuario().getRoles()){
+            perfil.setHabilitado(Boolean.TRUE);
+            perfilRepository.save(perfil);
+        }
+        barbeiro.setHabilitado(Boolean.TRUE);
         return barbeiroRepository.save(barbeiro);
     }
 
@@ -54,13 +67,11 @@ public class BarbeiroService {
         .map(barbeiroExistente -> {
             barbeiroExistente.setNome(barbeiroAtualizado.getNome());
             barbeiroExistente.setFoneCelular(barbeiroAtualizado.getFoneCelular());
-            barbeiroExistente.setEmail(barbeiroAtualizado.getEmail());
             barbeiroExistente.setDataNascimento(barbeiroAtualizado.getDataNascimento());
             barbeiroExistente.setCpf(barbeiroAtualizado.getCpf());
             barbeiroExistente.setEndereco(barbeiroAtualizado.getEndereco());
             barbeiroExistente.setAtendimentoInicio(barbeiroAtualizado.getAtendimentoInicio());
             barbeiroExistente.setAtendimentoFim(barbeiroAtualizado.getAtendimentoFim());
-            barbeiroExistente.setSenha(barbeiroAtualizado.getSenha());
 
             // // Apenas atualiza os IDs dos serviços diretamente
             // if (barbeiroAtualizado.getServicoIds() != null) {

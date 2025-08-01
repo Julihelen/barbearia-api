@@ -57,7 +57,6 @@ public class ClienteService {
 
         // Atualizar os campos que quiser permitir alteração
         clienteExistente.setNome(clienteAtualizado.getNome());
-        clienteExistente.setEmail(clienteAtualizado.getEmail());
         clienteExistente.setFoneCelular(clienteAtualizado.getFoneCelular());
         clienteExistente.setCpf(clienteAtualizado.getCpf());
         // Atualize outros campos se necessário

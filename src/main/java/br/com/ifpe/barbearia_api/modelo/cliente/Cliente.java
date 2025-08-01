@@ -52,10 +52,6 @@ public class Cliente extends EntidadeAuditavel  {
     private String endereco;
     @Column
     private String foneCelular;
-    @Column
-    private String email;
-    @Column
-    private String password;
     
     @OneToMany(mappedBy = "cliente")
     @Fetch(FetchMode.SUBSELECT)

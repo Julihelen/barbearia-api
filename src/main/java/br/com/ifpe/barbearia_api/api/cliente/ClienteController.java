@@ -44,8 +44,8 @@ public class ClienteController {
 //    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
-        Cliente clienteSalvo = clienteService.save(cliente);
+    public ResponseEntity<Cliente> save(@RequestBody ClienteRequest cliente) {
+        Cliente clienteSalvo = clienteService.save(cliente.build());
         return new ResponseEntity<>(clienteSalvo, HttpStatus.CREATED);
     }
 

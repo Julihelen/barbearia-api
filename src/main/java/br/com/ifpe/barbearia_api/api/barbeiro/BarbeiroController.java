@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Barbeiro;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroRepository;
+import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroRequest;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.BarbeiroService;
 import br.com.ifpe.barbearia_api.modelo.barbeiro.Disponibilidade;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
@@ -48,8 +49,8 @@ public class BarbeiroController {
 
     // Endpoint para criar o barbeiro com dados simples
     @PostMapping
-    public ResponseEntity<Barbeiro> criarBarbeiro(@RequestBody Barbeiro barbeiro) {
-        Barbeiro barbeiroSalvo = barbeiroService.salvar(barbeiro);
+    public ResponseEntity<Barbeiro> criarBarbeiro(@RequestBody BarbeiroRequest barbeiro) {
+        Barbeiro barbeiroSalvo = barbeiroService.salvar(barbeiro.buildBarbeiro());
         return new ResponseEntity<>(barbeiroSalvo, HttpStatus.CREATED);
     }
     
