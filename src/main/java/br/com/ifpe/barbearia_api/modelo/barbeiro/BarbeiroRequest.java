@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import br.com.ifpe.barbearia_api.modelo.acesso.Perfil;
-import br.com.ifpe.barbearia_api.modelo.acesso.Usuario;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -54,23 +52,16 @@ public class BarbeiroRequest {
     @NotBlank
     private String senha;
 
-    public Usuario buildUsuario(){
-        return Usuario.builder()
-            .username(email)
-            .password(senha)
-            .roles(Arrays.asList(new Perfil(Perfil.ROLE_FUNCIONARIO_USER)))
-            .build();
-    }
     public Barbeiro buildBarbeiro() {
         return Barbeiro.builder()
-                .usuario(buildUsuario())
-                .nome(nome)
-                .foneCelular(foneCelular)
-                .dataNascimento(dataNascimento)
-                .cpf(cpf)
-                .endereco(endereco)
-                .atendimentoInicio(atendimentoInicio)
-                .atendimentoFim(atendimentoFim)
-                .build();
+            .nome(nome)
+            .foneCelular(foneCelular)
+            .dataNascimento(dataNascimento)
+            .cpf(cpf)
+            .endereco(endereco)
+            .atendimentoInicio(atendimentoInicio)
+            .atendimentoFim(atendimentoFim)
+            .senha(senha)
+            .build();
     }
 }

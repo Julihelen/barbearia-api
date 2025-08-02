@@ -3,7 +3,6 @@ package br.com.ifpe.barbearia_api.modelo.barbeiro;
 import br.com.ifpe.barbearia_api.api.barbeiro.BarbeiroComDisponibilidadeDTO;
 import br.com.ifpe.barbearia_api.modelo.acesso.Perfil;
 import br.com.ifpe.barbearia_api.modelo.acesso.PerfilRepository;
-import br.com.ifpe.barbearia_api.modelo.acesso.UsuarioService;
 import br.com.ifpe.barbearia_api.modelo.servicos.Servico;
 import br.com.ifpe.barbearia_api.modelo.servicos.ServicoRepository;
 import br.com.ifpe.barbearia_api.modelo.agendamento.AgendamentoService;
@@ -31,7 +30,6 @@ public class BarbeiroService {
 
     private final PerfilRepository perfilRepository;
 
-    private final UsuarioService usuarioService;
 
     private final BarbeiroRepository barbeiroRepository;
     private final ServicoRepository servicoRepository;
@@ -41,11 +39,7 @@ public class BarbeiroService {
 
     @Transactional
     public Barbeiro salvar(Barbeiro barbeiro) {
-        usuarioService.save(barbeiro.getUsuario());
-        for(Perfil perfil : barbeiro.getUsuario().getRoles()){
-            perfil.setHabilitado(Boolean.TRUE);
-            perfilRepository.save(perfil);
-        }
+       
         barbeiro.setHabilitado(Boolean.TRUE);
         return barbeiroRepository.save(barbeiro);
     }

@@ -34,9 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Barbeiro extends EntidadeAuditavel {
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private Usuario usuario;
+    
 
     @Column
     private String nome;
@@ -52,6 +50,8 @@ public class Barbeiro extends EntidadeAuditavel {
     private LocalTime atendimentoInicio;
     @Column
     private LocalTime atendimentoFim;
+    @Column
+    private String senha;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -44,41 +44,21 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/cliente").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/barbeiros").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/servicos").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_USER,
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
-
-
-
-                .requestMatchers(HttpMethod.GET, "/api/servicos").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/cliente").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_USER,
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
-                .requestMatchers(HttpMethod.GET, "/api/barbeiros").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_USER,
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
-                // Swagger (documentação)
+                .requestMatchers(HttpMethod.GET, "/api/**").permitAll() // GET liberado
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
-                // Outras rotas protegidas por perfil
-                .requestMatchers("/api/agendamento/**").hasAnyAuthority(
-                    Perfil.ROLE_CLIENTE,
-                    Perfil.ROLE_FUNCIONARIO_USER,
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
+                // Dashboard somente para admin
+                .requestMatchers("/api/dashboard/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                .requestMatchers("/api/barbeiro/**").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_ADMIN, 
-                    Perfil.ROLE_FUNCIONARIO_USER)
+                // 🔥 Nova rota:
+                // POST permitido para todos os autenticados
+                .requestMatchers(HttpMethod.POST, "/api/novaRota").authenticated()
+                // GET, PUT e DELETE restritos a admin
+                .requestMatchers(HttpMethod.GET, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
+                .requestMatchers(HttpMethod.PUT, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
+                .requestMatchers(HttpMethod.DELETE, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                .requestMatchers(HttpMethod.POST, "/api/servicos").hasAnyAuthority(
-                    Perfil.ROLE_FUNCIONARIO_USER, 
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
-                .requestMatchers("/api/servicos/**").hasAnyAuthority(
-                    Perfil.ROLE_CLIENTE, 
-                    Perfil.ROLE_FUNCIONARIO_USER, 
-                    Perfil.ROLE_FUNCIONARIO_ADMIN)
-
-                // Qualquer outra rota exige autenticação
+                // Todas as demais rotas autenticadas (usuário ou admin)
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
