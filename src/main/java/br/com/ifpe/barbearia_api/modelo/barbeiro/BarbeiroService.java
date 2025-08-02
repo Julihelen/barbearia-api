@@ -105,4 +105,15 @@ public class BarbeiroService {
     public List<Barbeiro> getBarbeirosPorServico(Long idServico) {
         return barbeiroRepository.buscarPorIdServico(idServico);
     }
+    @Transactional
+    public Barbeiro buildBarbeiroComServicos(BarbeiroRequest request) {
+        Barbeiro barbeiro = request.buildBarbeiro();
+
+        if (request.getServicoIds() != null && !request.getServicoIds().isEmpty()) {
+            Set<Servico> servicos = new HashSet<>(servicoRepository.findAllById(request.getServicoIds()));
+            barbeiro.setServicos(servicos);
+        }
+        barbeiro.setHabilitado(true);
+        return barbeiro;
+    }
 }

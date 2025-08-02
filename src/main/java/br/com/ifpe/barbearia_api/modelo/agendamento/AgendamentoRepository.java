@@ -8,11 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> { //informando que estou herdando JPA para a tabela agenda e o tipo da chave primária
 
-  /**
-     * Query para buscar agendamentos de um barbeiro em um período específico (um dia inteiro).
-     */
-    @Query("SELECT a FROM Agendamento a WHERE a.barbeiro.id = :barbeiroId AND a.dataHoraInicio >= :inicioDia AND a.dataHoraFim <= :fimDia")
-    List<Agendamento> findAgendamentosNoDia(Long barbeiroId, LocalDateTime inicioDia, LocalDateTime fimDia);
+  @Query("SELECT a FROM Agendamento a WHERE a.barbeiro.id = :barbeiroId AND a.dataHoraFim > :inicioDia AND a.dataHoraInicio < :fimDia")
+  List<Agendamento> findAgendamentosNoDia(Long barbeiroId, LocalDateTime inicioDia, LocalDateTime fimDia);
+
 }
 
 

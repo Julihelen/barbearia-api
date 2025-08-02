@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import br.com.ifpe.barbearia_api.modelo.acesso.Usuario; 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,20 +81,23 @@ public class AgendamentoController {
        return ResponseEntity.ok(horarios);
    }
 
-//    @PostMapping(consumes = {"application/json", "application/json;charset=UTF-8"}, produces = "application/json")
-//     public ResponseEntity<Agendamento> save(@RequestBody Agendamento agendamento) {
-//         Agendamento agendamentoSalvo = agendamentoService.save(agendamento);
-//         return new ResponseEntity<>(agendamentoSalvo, HttpStatus.CREATED);
-//     }
-    @PostMapping(consumes = "application/json", produces = "application/json")
+
+   @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Agendamento> save(@RequestBody AgendamentoRequest request) {
         System.out.println("📥 JSON recebido no backend: " + request);
 
         Servico servico = servicoService.obterPorID(request.getServicoId());
         Barbeiro barbeiro = barbeiroService.obterPorID(request.getBarbeiroId());
 
-        // Se cliente não for enviado, pode ser null aqui
-        Cliente cliente = null; // Ou algum cliente padrão se quiser
+        // Obtém o usuário logado (a partir do token/session)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Buscar o cliente pelo username do usuário logado
+        Cliente cliente = clienteRepository.findByUsuarioUsername(username);
+        if (cliente == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         Agendamento agendamento = request.build(cliente, servico, barbeiro);
 
@@ -99,6 +105,7 @@ public class AgendamentoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
+
 
    @PutMapping("/{id}")
     public ResponseEntity<Agendamento> atualizarAgendamento(

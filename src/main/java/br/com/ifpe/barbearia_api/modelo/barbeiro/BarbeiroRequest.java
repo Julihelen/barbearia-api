@@ -52,6 +52,8 @@ public class BarbeiroRequest {
     @NotBlank
     private String senha;
 
+    private Set<Long> servicoIds;
+
     public Barbeiro buildBarbeiro() {
         return Barbeiro.builder()
             .nome(nome)

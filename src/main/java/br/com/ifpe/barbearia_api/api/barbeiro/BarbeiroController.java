@@ -48,11 +48,24 @@ public class BarbeiroController {
     )
 
     // Endpoint para criar o barbeiro com dados simples
-    @PostMapping
-    public ResponseEntity<Barbeiro> criarBarbeiro(@RequestBody BarbeiroRequest barbeiro) {
-        Barbeiro barbeiroSalvo = barbeiroService.salvar(barbeiro.buildBarbeiro());
+   @PostMapping
+    public ResponseEntity<Barbeiro> criarBarbeiro(@RequestBody BarbeiroRequest request) {
+        // Converte o DTO em entidade
+        Barbeiro barbeiro = request.buildBarbeiro();
+
+        // Busca os serviços no banco com base nos IDs enviados
+        Set<Servico> servicos = servicoRepository.findAllById(request.getServicoIds())
+                                                .stream()
+                                                .collect(Collectors.toSet());
+
+        // Associa os serviços ao barbeiro
+        barbeiro.setServicos(servicos);
+
+        // Salva o barbeiro já com os serviços
+        Barbeiro barbeiroSalvo = barbeiroService.salvar(barbeiro);
         return new ResponseEntity<>(barbeiroSalvo, HttpStatus.CREATED);
     }
+
     
     // Endpoint para ASSOCIAR serviços a um barbeiro já existente
     @PostMapping("/{barbeiroId}/servicos")
