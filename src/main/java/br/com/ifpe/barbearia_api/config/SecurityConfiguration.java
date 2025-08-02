@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/novaRota").authenticated()
                 // GET, PUT e DELETE restritos a admin
                 .requestMatchers(HttpMethod.GET, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
-                .requestMatchers(HttpMethod.PUT, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
+                .requestMatchers(HttpMethod.PUT, "/api/cliente/").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
                 .requestMatchers(HttpMethod.DELETE, "/api/novaRota/**").hasAuthority(Perfil.ROLE_FUNCIONARIO_ADMIN)
 
                 // Todas as demais rotas autenticadas (usuário ou admin)

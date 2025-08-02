@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.ifpe.barbearia_api.util.entity.EntidadeNegocio;
 import jakarta.persistence.Column;
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"authorities", "password"})
 public class Usuario extends EntidadeNegocio implements UserDetails {
 
     @Column(nullable = false, unique = true)
